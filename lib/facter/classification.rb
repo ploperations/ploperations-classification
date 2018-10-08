@@ -1,7 +1,7 @@
 Facter.add(:classification) do
-  require 'puppetops/classification'
+  require 'ploperations/classification'
 
   setcode do
-    Puppetops::Classification::parse_hostname(Facter.value('hostname'))
+    Ploperations::Classification.parse_hostname(Facter.value('hostname'))
   end
 end

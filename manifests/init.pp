@@ -5,20 +5,20 @@
 # associated with a node, since facts are sent before compilation.
 #
 # This uses the same underlying code as the classification fact:
-#    dist/classification/lib/puppetops/classification.rb
+#    lib/ploperations/classification.rb
 class classification {
   if $trusted['certname'] =~ /\Ai-[a-z0-9]+\Z/ {
     # Temporary work around for unmigrated EC2 nodes (OPS-10034)
-    $certname = $facts['fqdn']
-    $cert_hostname = $facts['hostname']
-    $cert_domain = $facts['domain']
+    $certname = $facts['networking']['fqdn']
+    $cert_hostname = $facts['networking']['hostname']
+    $cert_domain = $facts['networking']['domain']
   } else {
     $certname = $trusted['certname']
     $cert_hostname = $trusted['hostname']
     $cert_domain = $trusted['domain']
   }
 
-  $classification = parse_hostname($cert_hostname)
+  $classification = classification::parse_hostname($cert_hostname)
   $number = $classification['number']
   $parts = $classification['parts']
   [$group, $function, $number_string, $context, $stage, $id] = $parts
@@ -96,11 +96,13 @@ class classification {
     $untrusted_value = $facts['classification'][$fact_name]
     $trusted_value = $classification_calculated_trusted[$fact_name]
 
+    # lint:ignore:80chars lint:ignore:140chars
     if $untrusted_value != $trusted_value {
       "    ${fact_name}: '${untrusted_value}' != '${trusted_value}'\n    ${fact_name} types: ${type($untrusted_value)} != ${type($trusted_value)}"
     } else {
       undef
     }
+    # lint:endignore
   })
 
   if $classification_fact_differences.size() > 0 {
