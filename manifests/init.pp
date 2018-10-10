@@ -77,7 +77,6 @@ class classification {
 
   $classification_fact_names = [
     'hostname',
-    'parts',
     'version',
     'group',
     'function',
@@ -85,7 +84,6 @@ class classification {
     'number_string',
     'context',
     'stage',
-    'id',
   ]
 
   $classification_calculated_trusted = $classification + {
