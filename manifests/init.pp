@@ -1,29 +1,28 @@
-# Determine group, function, etc. for classification based on certname
+# @summary Determine group, function, etc. for classification based on certname.
 #
+# Determine group, function, etc. for classification based on certname.
 # This verifies that untrusted facts match the trusted values found here to
 # prevent attacks via fact overrides. Note that incorrect facts can still be
-# associated with a node, since facts are sent before compilation.
+# associated with a node since facts are sent before compilation.
 #
 # This uses the same underlying code as the classification fact:
-#    lib/ploperations/classification.rb
+#    `lib/ploperations/classification.rb`
+#
+# @example Automatically include on every node
+#   # in site.pp:
+#   include classification
 class classification {
-  if $trusted['certname'] =~ /\Ai-[a-z0-9]+\Z/ {
-    # Temporary work around for unmigrated EC2 nodes (OPS-10034)
-    $certname = $facts['networking']['fqdn']
-    $cert_hostname = $facts['networking']['hostname']
-    $cert_domain = $facts['networking']['domain']
-  } else {
-    $certname = $trusted['certname']
-    $cert_hostname = $trusted['hostname']
-    $cert_domain = $trusted['domain']
-  }
+  $parsed_trusted_cert_name = classification::parse_cert_info($trusted['certname'])
+  $certname = $parsed_trusted_cert_name['certname']
+  $cert_hostname = $parsed_trusted_cert_name['cert_hostname']
+  $cert_domain = $parsed_trusted_cert_name['cert_domain']
 
-  $classification = classification::parse_hostname($cert_hostname)
-  $number = $classification['number']
-  $parts = $classification['parts']
+  $parsed_classification = classification::parse_hostname($cert_hostname)
+  $number = $parsed_classification['number']
+  $parts = $parsed_classification['parts']
   [$group, $function, $number_string, $context, $stage, $id] = $parts
 
-  if $classification['version'] == 2 {
+  if $parsed_classification['version'] == 2 {
     # This uses the version 2 format (group-function-context-stage-#-id);
     # calculate the correct (non-cert) hostname. There are two reasons:
     #
@@ -44,13 +43,6 @@ class classification {
   $fqdn = "${hostname}.${domain}"
 
   # Validate untrusted facts
-  $root_level_fact_names = [
-    'certname',
-    'hostname',
-    'fqdn',
-    'domain',
-  ]
-
   $root_level_calculated_trusted = {
     certname => $trusted['certname'],
     hostname => $hostname,
@@ -58,24 +50,18 @@ class classification {
     domain   => $domain,
   }
 
-  $root_level_fact_differences = delete_undef_values($root_level_fact_names.map |$fact_name| {
-    $untrusted_value = String($facts[$fact_name])
-    $trusted_value = String($root_level_calculated_trusted[$fact_name])
+  $root_level_facts_to_validate = [
+    'certname',
+    'hostname',
+    'fqdn',
+    'domain',
+  ]
 
-    if $untrusted_value != $trusted_value {
-      "    ${fact_name}: '${untrusted_value}' != '${trusted_value}'"
-    } else {
-      undef
-    }
-  })
-
-  if $root_level_fact_differences.size() > 0 {
-    fail((
-      ["Untrusted facts (left) don't match values from certname (right):"]
-      + $root_level_fact_differences).join("\n"))
+  $classification_calculated_trusted = $parsed_classification + {
+    hostname => $hostname,
   }
 
-  $classification_fact_names = [
+  $classification_facts_to_validate = [
     'hostname',
     'version',
     'group',
@@ -86,26 +72,20 @@ class classification {
     'stage',
   ]
 
-  $classification_calculated_trusted = $classification + {
-    hostname => $hostname,
-  }
+  $root_level_fact_differences = classification::validate_facts(
+    $facts,
+    $root_level_calculated_trusted,
+    $root_level_facts_to_validate,
+  )
 
-  $classification_fact_differences = delete_undef_values($classification_fact_names.map |$fact_name| {
-    $untrusted_value = $facts['classification'][$fact_name]
-    $trusted_value = $classification_calculated_trusted[$fact_name]
+  notify{"Classification fact: ${facts['classification']}":}
+  notify{"Calculated trusted: ${classification_calculated_trusted}":}
+  $classification_fact_differences = classification::validate_facts(
+    $facts['classification'],
+    $classification_calculated_trusted,
+    $classification_facts_to_validate,
+  )
 
-    # lint:ignore:80chars lint:ignore:140chars
-    if $untrusted_value != $trusted_value {
-      "    ${fact_name}: '${untrusted_value}' != '${trusted_value}'\n    ${fact_name} types: ${type($untrusted_value)} != ${type($trusted_value)}"
-    } else {
-      undef
-    }
-    # lint:endignore
-  })
-
-  if $classification_fact_differences.size() > 0 {
-    fail((
-      ["Untrusted facts (left) don't match values from certname (right):"]
-      + $classification_fact_differences).join("\n"))
-  }
+  $fact_differences = $root_level_fact_differences + $classification_fact_differences
+  classification::test_fact_difference_array($fact_differences)
 }

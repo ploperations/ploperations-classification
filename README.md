@@ -2,8 +2,9 @@
 # classification
 
 The classification module is used internally at Puppet to do two key things:
+
 - create facts based on a node's host and domain name
-- verify that the facts provided during the puppet run match the values parsed from the node's cert.
+- verify that the facts provided during a puppet run match the values parsed from the node's cert
 
 This helps prevent attacks via fact overrides.
 
@@ -17,7 +18,8 @@ sent before compilation.
     * [What classification affects](#what-classification-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with classification](#beginning-with-classification)
-3. [Usage - Configuration options and additional functionality](#usage)
+3. [Usage](#usage)
+4. [Reference](#reference)
 
 ## Description
 
@@ -31,7 +33,7 @@ the underlying ideas will be useful in your own works.
 
 Classification is intended to be included on all nodes via `site.pp`
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
 
 Stdlib is required for this module to work.
 
@@ -46,3 +48,8 @@ include classification
 ```puppet
 facter -p classification
 ```
+
+## Reference
+
+This module is documented via `puppet strings generate --format markdown`.
+Please see [REFERENCE.md](REFERENCE.md) for more info.

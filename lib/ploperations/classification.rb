@@ -2,17 +2,23 @@ require File.expand_path(
   '../ploperations.rb',
   File.dirname(__FILE__),
 )
-
 # This module generates facts based off of a nodes's name
-# rubocop:disable Style/PerlBackrefs
 module Ploperations::Classification
-  # Same as split_hostname, but returns an extra version value.
+  # Split a hostname into its consituent parts and assign a version value based
+  # on the format of the hostname.
   #
   # The version value will be one of:
+  #
   #   * `2`: hostname matches group-function-context-stage-#-id
   #   * `1`: hostname matches group-function#-stage
   #   * `0`: hostname doesn't match one of the standards
+  #
+  # @param hostname The hostname to split
+  # @return [Array] Returns a 7 element array. Some or all values may be empty strings.
+  # @example
+  #   [group, function, number_string, context, stage, id, version]
   def self._split_hostname(hostname)
+    # rubocop:disable Style/PerlBackrefs
     group, function, number_string, context, stage, id = []
     version = 0
 
@@ -54,12 +60,25 @@ module Ploperations::Classification
       group = hostname.split(%r{[0-9-]}).first
 
       begin
-        stage = hostname.split(%r{-}).last
+        stage = if hostname.include? '-'
+                  hostname.split('-').last
+                else
+                  nil.to_s
+                end
       rescue
         stage = nil.to_s
       end
 
       # set remaining parts of the fact so they are not undefined
+      function = nil.to_s
+      number_string = nil.to_s
+      context = nil.to_s
+      id = nil.to_s
+    else
+      group = hostname
+
+      # set remaining parts of the fact so they are not undefined
+      stage = nil.to_s
       function = nil.to_s
       number_string = nil.to_s
       context = nil.to_s
@@ -71,11 +90,10 @@ module Ploperations::Classification
 
   # Split a hostname into its consituent parts
   #
-  # Returns a 6 element array. Some or all the elements may be nil.
-  #
-  # ~~~ ruby
-  # return [group, function, number_string, context, stage, id]
-  # ~~~~
+  # @param hostname The hostname to split
+  # @return [Array] Returns a 6 element array. Some or all values may be empty strings.
+  # @example
+  #   [group, function, number_string, context, stage, id]
   def self.split_hostname(hostname)
     # Drop the version element
     _split_hostname(hostname)[0..5]
@@ -83,33 +101,34 @@ module Ploperations::Classification
 
   # Parse a hostname into a hash of its parts
   #
-  # Returns a hash. Some or all the values may be nil.
-  #
   # The version attribute will be one of:
+  #
   #   * `2`: hostname matches group-function-context-stage-#-id
   #   * `1`: hostname matches group-function#-stage
   #   * `0`: hostname doesn't match one of the standards
   #
-  # ~~~ ruby
-  # return {
-  #   'hostname' => hostname,
-  #   'parts' => [group, function, number_string, context, stage, id],
-  #   'version' => version,
-  #   'group' => group,
-  #   'function' => function,
-  #   'number' => number,
-  #   'number_string' => number_string,
-  #   'context' => context,
-  #   'stage' => stage,
-  #   'id' => id,
-  # }
+  # @param hostname The hostname to parse
+  # @return [Hash] Some or all the values may be nil.
+  # @example
+  #   {
+  #     'hostname' => hostname,
+  #     'parts' => [group, function, number_string, context, stage, id],
+  #     'version' => version,
+  #     'group' => group,
+  #     'function' => function,
+  #     'number' => number,
+  #     'number_string' => number_string,
+  #     'context' => context,
+  #     'stage' => stage,
+  #     'id' => id,
+  #   }
   #
   def self.parse_hostname(hostname)
     parts = _split_hostname(hostname)
     version = parts.pop
     group, function, number_string, context, stage, id = parts
 
-    number = if number_string
+    number = if number_string && !number_string.empty?
                number_string.to_i
              else
                nil
