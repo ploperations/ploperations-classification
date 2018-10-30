@@ -1,3 +1,4 @@
+# Get the hostname from Facter and parse it into a structured fact
 Facter.add(:classification) do
   require 'ploperations/classification'
 
