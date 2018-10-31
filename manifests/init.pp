@@ -78,8 +78,6 @@ class classification {
     $root_level_facts_to_validate,
   )
 
-  notify{"Classification fact: ${facts['classification']}":}
-  notify{"Calculated trusted: ${classification_calculated_trusted}":}
   $classification_fact_differences = classification::validate_facts(
     $facts['classification'],
     $classification_calculated_trusted,
