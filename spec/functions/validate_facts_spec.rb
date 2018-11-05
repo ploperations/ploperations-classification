@@ -37,15 +37,15 @@ describe 'classification::validate_facts' do
         it {
           is_expected.to run.with_params(
             {
-              'certname' => 'pe-lb-spectesting-prod-1.ops.example.com',
-              'hostname' => 'pe-lb-spectesting-prod-1',
-              'fqdn'     => 'pe-lb-spectesting-prod-1.ops.example.com',
-              'domain'   => 'ops.example.com',
-            },
-            {
               'certname' => 'foo.ops.example.com',
               'hostname' => 'foo',
               'fqdn'     => 'foo.ops.example.com',
+              'domain'   => 'ops.example.com',
+            },
+            {
+              'certname' => 'pe-lb-spectesting-prod-1.ops.example.com',
+              'hostname' => 'pe-lb-spectesting-prod-1',
+              'fqdn'     => 'pe-lb-spectesting-prod-1.ops.example.com',
               'domain'   => 'ops.example.com',
             },
             [
