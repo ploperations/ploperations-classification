@@ -121,7 +121,7 @@ describe 'classification::split_hostname' do
             'pelb',
           ).and_return(
             [
-              'pelb',
+              '',
               '',
               '',
               '',

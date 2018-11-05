@@ -185,7 +185,7 @@ describe 'classification::parse_hostname' do
           ).and_return(
             'hostname' => 'pelb',
             'parts' => [
-              'pelb',
+              '',
               '',
               '',
               '',
@@ -193,7 +193,7 @@ describe 'classification::parse_hostname' do
               '',
             ],
             'version' => 0,
-            'group' => 'pelb',
+            'group' => '',
             'function' => '',
             'number' => nil,
             'number_string' => '',

@@ -75,9 +75,8 @@ module Ploperations::Classification
       context = nil.to_s
       id = nil.to_s
     else
-      group = hostname
-
-      # set remaining parts of the fact so they are not undefined
+      # set all parts of the fact so they are not undefined
+      group = nil.to_s
       stage = nil.to_s
       function = nil.to_s
       number_string = nil.to_s
