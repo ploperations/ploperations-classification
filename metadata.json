@@ -2,7 +2,7 @@
   "name": "ploperations-classification",
   "version": "0.1.0",
   "author": "InfraCore at Puppet",
-  "summary": "",
+  "summary": "Classify nodes based on certname",
   "license": "Apache-2.0",
   "source": "https://github.com/ploperations/ploperations-classification.git",
   "project_page": "https://github.com/ploperations/ploperations-classification",
@@ -24,6 +24,44 @@
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "7"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "16.04"
+      ]
+    },
+    {
+      "operatingsystem": "windows",
+      "operatingsystemrelease": [
+        "2008 R2",
+        "2012 R2",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "Darwin",
+      "operatingsystemrelease": [
+        "16"
+      ]
+    },
+    {
+      "operatingsystem": "FreeBSD",
+      "operatingsystemrelease": [
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "11"
       ]
     }
   ],
