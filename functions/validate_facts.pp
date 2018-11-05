@@ -29,8 +29,8 @@
 # @param fact_names An array of fact names to validate
 # @return [Array] An array of strings documenting any facts that don't match their trusted values
 function classification::validate_facts(
-  Hash $calculated_facts,
   Hash $untrusted_facts,
+  Hash $calculated_facts,
   Array $fact_names,
   ) >> Array {
   $differences = delete_undef_values($fact_names.map |$fact_name| {
