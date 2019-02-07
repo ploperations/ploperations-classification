@@ -1,0 +1,12 @@
+---
+.gitlab-ci.yml:
+  delete: true
+appveyor.yml:
+  delete: true
+Rakefile:
+  requires:
+    - 'puppet-strings/tasks'
+spec/spec_helper.rb:
+  mock_with: ':rspec'
+  coverage_report: true
+
