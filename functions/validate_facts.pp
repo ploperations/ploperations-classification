@@ -24,8 +24,8 @@
 #     $classification_facts_to_validate,
 #   )
 #
-# @param calculated_facts A hash of trusted facts
 # @param untrusted_facts A hash of untrusted facts
+# @param calculated_facts A hash of trusted facts
 # @param fact_names An array of fact names to validate
 # @return [Array] An array of strings documenting any facts that don't match their trusted values
 function classification::validate_facts(
