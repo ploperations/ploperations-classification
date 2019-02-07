@@ -13,7 +13,6 @@
 #   include classification
 class classification {
   $parsed_trusted_cert_name = classification::parse_cert_info($trusted['certname'])
-  $certname = $parsed_trusted_cert_name['certname']
   $cert_hostname = $parsed_trusted_cert_name['cert_hostname']
   $cert_domain = $parsed_trusted_cert_name['cert_domain']
 
@@ -44,14 +43,14 @@ class classification {
 
   # Validate untrusted facts
   $root_level_calculated_trusted = {
-    certname => $trusted['certname'],
-    hostname => $hostname,
-    fqdn     => $fqdn,
-    domain   => $domain,
+    clientcert => $trusted['certname'],
+    hostname   => $hostname,
+    fqdn       => $fqdn,
+    domain     => $domain,
   }
 
   $root_level_facts_to_validate = [
-    'certname',
+    'clientcert',
     'hostname',
     'fqdn',
     'domain',

@@ -51,5 +51,5 @@ facter -p classification
 
 ## Reference
 
-This module is documented via `puppet strings generate --format markdown`.
+This module is documented via `pdk bundle exec puppet strings generate --format markdown`.
 Please see [REFERENCE.md](REFERENCE.md) for more info.
