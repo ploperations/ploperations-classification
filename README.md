@@ -1,5 +1,9 @@
-
 # classification
+
+![](https://img.shields.io/puppetforge/pdk-version/ploperations/classification.svg?style=popout)
+![](https://img.shields.io/puppetforge/v/ploperations/classification.svg?style=popout)
+![](https://img.shields.io/puppetforge/dt/ploperations/classification.svg?style=popout)
+[![Build Status](https://travis-ci.org/ploperations/ploperations-classification.svg?branch=master)](https://travis-ci.org/ploperations/ploperations-classification)
 
 The classification module is used internally at Puppet to do two key things:
 

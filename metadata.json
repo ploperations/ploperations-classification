@@ -1,7 +1,7 @@
 {
   "name": "ploperations-classification",
-  "version": "0.1.0",
-  "author": "InfraCore at Puppet",
+  "version": "0.2.0",
+  "author": "ploperations",
   "summary": "Classify nodes based on certname",
   "license": "Apache-2.0",
   "source": "https://github.com/ploperations/ploperations-classification.git",
