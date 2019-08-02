@@ -44,11 +44,27 @@ Type: Puppet Language
 
 Parse the cert name to determine what values to compare against.
 
+#### Examples
+
+##### 
+
+```puppet
+classification::parse_cert_info($trusted['certname'])
+```
+
 #### `classification::parse_cert_info(String $trusted_cert_name)`
 
 Parse the cert name to determine what values to compare against.
 
 Returns: `Hash` Returns a hash containing certname, cert_hostname, and cert_domain.
+
+##### Examples
+
+###### 
+
+```puppet
+classification::parse_cert_info($trusted['certname'])
+```
 
 ##### `trusted_cert_name`
 
@@ -62,11 +78,47 @@ Type: Ruby 4.x API
 
 Parse a hostname into a hash of its parts
 
+#### Examples
+
+##### 
+
+```puppet
+{
+  hostname      => $hostname,
+  parts         => [$group, $function, $number_string, $context, $stage, $id],
+  group         => $group,
+  function      => $function,
+  number        => $number_as_int,
+  number_string => $number_string,
+  context       => $context,
+  stage         => $stage,
+  id            => $id,
+}
+```
+
 #### `classification::parse_hostname(String $hostname_string)`
 
 Parse a hostname into a hash of its parts
 
 Returns: `Hash` Some or all the values may be nil.
+
+##### Examples
+
+###### 
+
+```puppet
+{
+  hostname      => $hostname,
+  parts         => [$group, $function, $number_string, $context, $stage, $id],
+  group         => $group,
+  function      => $function,
+  number        => $number_as_int,
+  number_string => $number_string,
+  context       => $context,
+  stage         => $stage,
+  id            => $id,
+}
+```
 
 ##### `hostname_string`
 
@@ -80,11 +132,27 @@ Type: Ruby 4.x API
 
 Split a hostname into its consituent parts
 
+#### Examples
+
+##### 
+
+```puppet
+[ $group, $function, $number_string, $context, $stage, $id ]
+```
+
 #### `classification::split_hostname(String $hostname_string)`
 
 Split a hostname into its consituent parts
 
 Returns: `Array` Returns a 6 element array. Some or all the elements may be nil.
+
+##### Examples
+
+###### 
+
+```puppet
+[ $group, $function, $number_string, $context, $stage, $id ]
+```
 
 ##### `hostname_string`
 
@@ -98,11 +166,29 @@ Type: Puppet Language
 
 If the list of differences has any values fail the run and list the issues.
 
+#### Examples
+
+##### 
+
+```puppet
+$fact_differences = $root_level_fact_differences + $classification_fact_differences
+classification::test_fact_difference_array($fact_differences)
+```
+
 #### `classification::test_fact_difference_array(Array $fact_differences)`
 
 If the list of differences has any values fail the run and list the issues.
 
 Returns: `Boolean`
+
+##### Examples
+
+###### 
+
+```puppet
+$fact_differences = $root_level_fact_differences + $classification_fact_differences
+classification::test_fact_difference_array($fact_differences)
+```
 
 ##### `fact_differences`
 
@@ -117,11 +203,65 @@ Type: Puppet Language
 
 Validate a hash of facts against trusted values calculated from the certname.
 
+#### Examples
+
+##### 
+
+```puppet
+$classification_calculated_trusted = $parsed_classification + {
+  hostname => $hostname,
+}
+
+$classification_facts_to_validate = [
+  'hostname',
+  'version',
+  'group',
+  'function',
+  'number',
+  'number_string',
+  'context',
+  'stage',
+]
+
+$classification_fact_differences = classification::validate_facts(
+  $facts['classification'],
+  $classification_calculated_trusted,
+  $classification_facts_to_validate,
+)
+```
+
 #### `classification::validate_facts(Hash $untrusted_facts, Hash $calculated_facts, Array $fact_names)`
 
 Validate a hash of facts against trusted values calculated from the certname.
 
 Returns: `Array` An array of strings documenting any facts that don't match their trusted values
+
+##### Examples
+
+###### 
+
+```puppet
+$classification_calculated_trusted = $parsed_classification + {
+  hostname => $hostname,
+}
+
+$classification_facts_to_validate = [
+  'hostname',
+  'version',
+  'group',
+  'function',
+  'number',
+  'number_string',
+  'context',
+  'stage',
+]
+
+$classification_fact_differences = classification::validate_facts(
+  $facts['classification'],
+  $classification_calculated_trusted,
+  $classification_facts_to_validate,
+)
+```
 
 ##### `untrusted_facts`
 
