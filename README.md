@@ -15,15 +15,14 @@ This helps prevent attacks via fact overrides.
 _Note_: Incorrect facts can still be associated with a node, since facts are
 sent before compilation.
 
-#### Table of Contents
-
-1. [Description](#description)
-2. [Setup - The basics of getting started with classification](#setup)
-    * [What classification affects](#what-classification-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with classification](#beginning-with-classification)
-3. [Usage](#usage)
-4. [Reference](#reference)
+- [Description](#description)
+- [Setup](#setup)
+  - [What classification affects](#what-classification-affects)
+  - [Setup Requirements](#setup-requirements)
+  - [Beginning with classification](#beginning-with-classification)
+- [Usage](#usage)
+- [Reference](#reference)
+- [Changelog](#changelog)
 
 ## Description
 
@@ -55,5 +54,12 @@ facter -p classification
 
 ## Reference
 
-This module is documented via `pdk bundle exec puppet strings generate --format markdown`.
+This module is documented via
+`pdk bundle exec puppet strings generate --format markdown`.
 Please see [REFERENCE.md](REFERENCE.md) for more info.
+
+## Changelog
+
+[CHANGELOG.md](CHANGELOG.md) is generated prior to each release via
+`pdk bundle exec rake changelog`. This process relies on labels that are applied
+to each pull request.
