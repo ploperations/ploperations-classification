@@ -1,6 +1,6 @@
 {
   "name": "ploperations-classification",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "author": "ploperations",
   "summary": "Classify nodes based on certname",
   "license": "Apache-2.0",
