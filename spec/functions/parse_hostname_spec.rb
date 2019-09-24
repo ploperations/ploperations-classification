@@ -3,6 +3,56 @@ require 'spec_helper'
 describe 'classification::parse_hostname' do
   on_supported_os.each do |os, _facts|
     context "on #{os}" do
+      context 'with v2 hostname with context and function contains a digit' do
+        it {
+          is_expected.to run.with_params(
+            'pe-cd4pe-infranext-prod-1',
+          ).and_return(
+            'hostname' => 'pe-cd4pe-infranext-prod-1',
+            'parts' => [
+              'pe',
+              'cd4pe',
+              '1',
+              'infranext',
+              'prod',
+              nil,
+            ],
+            'version' => 2,
+            'group' => 'pe',
+            'function' => 'cd4pe',
+            'number' => 1,
+            'number_string' => '1',
+            'context' => 'infranext',
+            'stage' => 'prod',
+            'id' => nil,
+          )
+        }
+      end
+      context 'with v2 hostname without context and function contains a digit' do
+        it {
+          is_expected.to run.with_params(
+            'pe-cd4pe-prod-1',
+          ).and_return(
+            'hostname' => 'pe-cd4pe-prod-1',
+            'parts' => [
+              'pe',
+              'cd4pe',
+              '1',
+              '',
+              'prod',
+              nil,
+            ],
+            'version' => 2,
+            'group' => 'pe',
+            'function' => 'cd4pe',
+            'number' => 1,
+            'number_string' => '1',
+            'context' => '',
+            'stage' => 'prod',
+            'id' => nil,
+          )
+        }
+      end
       context 'with v2 hostname with context' do
         it {
           is_expected.to run.with_params(

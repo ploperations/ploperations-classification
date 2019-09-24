@@ -23,7 +23,7 @@ module Ploperations::Classification
     version = 0
 
     case hostname
-    when %r{^([a-z0-9]*[a-z][a-z0-9]*)-([a-z]+)(-[a-z0-9]*[a-z][a-z0-9]*)?-([a-z]+)-(\d+)(-[a-z0-9]+)?$}
+    when %r{^([a-z0-9]*[a-z][a-z0-9]*)-([a-z0-9]*[a-z]+)(-[a-z0-9]*[a-z][a-z0-9]*)?-([a-z]+)-(\d+)(-[a-z0-9]+)?$}
       version = 2
       # group-function-context-stage-#-id
       group = $1
