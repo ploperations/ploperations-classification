@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [1.1.0](https://github.com/ploperations/ploperations-classification/tree/1.1.0) (2019-11-06)
+
+[Full Changelog](https://github.com/ploperations/ploperations-classification/compare/1.0.0...1.1.0)
+
+### Added
+
+- allow digits in function [\#19](https://github.com/ploperations/ploperations-classification/pull/19) ([suckatrash](https://github.com/suckatrash))
+
+## [1.0.0](https://github.com/ploperations/ploperations-classification/tree/1.0.0) (2019-08-02)
+
+[Full Changelog](https://github.com/ploperations/ploperations-classification/compare/0.2.0...1.0.0)
+
 ## [0.2.0](https://github.com/ploperations/ploperations-classification/tree/0.2.0) (2019-02-08)
 
 [Full Changelog](https://github.com/ploperations/ploperations-classification/compare/7943bc87c152ab08ce8446c01c62996bd405739f...0.2.0)
