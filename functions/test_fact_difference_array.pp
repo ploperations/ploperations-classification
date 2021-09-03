@@ -15,7 +15,7 @@ function classification::test_fact_difference_array(Array $fact_differences) >> 
 
   if $fact_differences.size() > 0 {
     fail((["Untrusted facts (left) don't match values from certname (right):"]
-          + $fact_differences).join("\n"))
+    + $fact_differences).join("\n"))
   }
 
   $return
