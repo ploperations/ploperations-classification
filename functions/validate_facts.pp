@@ -32,16 +32,16 @@ function classification::validate_facts(
   Hash $untrusted_facts,
   Hash $calculated_facts,
   Array $fact_names,
-  ) >> Array {
+) >> Array {
   $differences = delete_undef_values($fact_names.map |$fact_name| {
-    $untrusted_value = String($untrusted_facts[$fact_name])
-    $trusted_value = String($calculated_facts[$fact_name])
+      $untrusted_value = String($untrusted_facts[$fact_name])
+      $trusted_value = String($calculated_facts[$fact_name])
 
-    if $untrusted_value != $trusted_value {
-      "    ${fact_name}: '${untrusted_value}' != '${trusted_value}'"
-    } else {
-      undef
-    }
+      if $untrusted_value != $trusted_value {
+        "    ${fact_name}: '${untrusted_value}' != '${trusted_value}'"
+      } else {
+        undef
+      }
   })
 
   $differences

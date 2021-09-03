@@ -18,8 +18,7 @@ class classification {
 
   $parsed_classification = classification::parse_hostname($cert_hostname)
   $number = $parsed_classification['number']
-  $parts = $parsed_classification['parts']
-  [$group, $function, $number_string, $context, $stage, $id] = $parts
+  $parts = $parsed_classification['parts'] [$group, $function, $number_string, $context, $stage, $id] = $parts
 
   if $parsed_classification['version'] == 2 {
     # This uses the version 2 format (group-function-context-stage-#-id);
@@ -31,7 +30,7 @@ class classification {
     #      is already validated, but this will catch stuff like numbers with
     #      leading 0s.
     $hostname = [$group, $function, $context, $stage, $number]
-      .delete_undef_values().delete('').join('-')
+    .delete_undef_values().delete('').join('-')
   } else {
     $hostname = $cert_hostname
   }
